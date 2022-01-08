@@ -1,0 +1,17 @@
+~$ pwd
+/home/ubuntu
+~$ mkdir nginx
+~$ cd nginx
+~$ nano index.html
+
+''' index.html 파일 '''
+<html>
+	Nginx docker -v option test!
+</html>
+
+
+[ 컨테이너 실행 ]
+docker run --rm -d \
+-p 50000:80
+-v ~/nginx/index.html:/usr/share/nginx/html/index.html \
+nginx

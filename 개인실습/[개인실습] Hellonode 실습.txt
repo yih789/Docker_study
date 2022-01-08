@@ -1,0 +1,48 @@
+~$ pwd
+/home/ubuntu
+~$ mkdir nodejs
+~$ cd nodejs
+
+
+
+''' server.js '''
+const http = require('http');
+const os = require('os');
+
+const port = process.env.PORT || 8080;
+
+process.on('SIGINT', function() {
+  console.log('shutting down...');
+  process.exit(1);
+});
+
+var handleRequest = function(request, response) {
+  console.log(`Received request for URL: ${request.url}`);
+  response.writeHead(200);
+  response.end(`Hello, World!\nHostname: ${os.hostname()}\n`);
+};
+
+var www = http.createServer(handleRequest);
+www.listen(port, () => {
+  console.log(`server listening on port ${port}`);
+});
+
+
+''' Dockerfile '''
+# node 이미지 사용
+FROM node:12-alpine
+
+# 소스 복사
+COPY server.js /usr/src/app
+
+# web 서버 실행
+EXPOSE 8080
+CMD node server.js
+
+
+
+[ 이미지 생성 ]
+docker build -t hellonode:latest .
+
+[ 컨테이너 실행 ]
+docker run --rm -d -p 60000:8080 hellonode

@@ -1,0 +1,37 @@
+~$ pwd
+/home/ubuntu
+~$ mkdir mongo
+~$ mkdir guestbook
+~$ cd guestbook
+~$ nano docker-compose.yml
+
+[ 컨테이너 실행 ]
+~$ docker-compose up
+~$ docker-compose down
+
+''' docker-compose.yml '''
+
+version: '3' 
+services: 
+ mongodb: 
+  image: mongo:4
+  volumes: 
+   - ~/mongo:/etc/mongo
+  restart: always 
+
+ backend: 
+  image: subicura/guestbook-backend:latest
+  restart: always 
+  environment:
+   PORT: 20000
+   GUESTBOOK_DB_ADDR: mongodb:27017
+
+ frontend: 
+  image: subicura/guestbook-frontend:latest
+  ports:
+      - "62000:40000"
+  environment: 
+   PORT: 40000
+   GUESTBOOK_API_ADDR: backend:20000
+
+

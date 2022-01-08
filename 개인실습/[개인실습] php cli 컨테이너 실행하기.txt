@@ -1,0 +1,8 @@
+''' hello.php 파일 '''
+<?php phpinfo() ?>
+
+[ 컨테이너 실행 ]
+docker run --rm \
+-v ~/php/hello.php:/usr/src/myapp/hello.php \
+-w /usr/src/myapp \
+php:7 php hello.php

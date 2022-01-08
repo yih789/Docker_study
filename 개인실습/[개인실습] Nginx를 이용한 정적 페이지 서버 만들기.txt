@@ -1,0 +1,30 @@
+~$ pwd
+/home/ubuntu
+~$ mkdir nginx
+~$ cd nginx
+~$ nano index.html
+~$ nano Dockerfile
+
+''' index.html '''
+<html>
+  <head>
+    <title>도커 이미지 예제</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <h1>Nginx 서버를 도커 이미지로 만들었습니다.</h1>
+  </body>
+</html>
+
+''' Dockerfile '''
+FROM nginx
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+
+[ 이미지 생성 ]
+docker build -t nginx:index.html .
+
+[ 컨테이너 생성 ]
+docker run --rm -d \
+-p 50001:80
+nginx:index.html

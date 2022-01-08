@@ -1,0 +1,27 @@
+~$ pwd
+/home/ubuntu
+~$ mkdir ghost
+~$ cd ghost
+~$ nano docker-compose.yml
+
+[ 컨테이너 생성 ]
+~$ docker-compose up -d
+[ 컨테이너 종료 ]
+~$ docker-compose down
+
+''' docker-compose.yml '''
+version: '3'
+
+services:
+  ghost:
+    image: ghost:latest
+    ports:
+      - "60000:2368"
+    volumes:
+      - ~/ghost:/var/lib/ghost/content
+    environment:
+      url: http://localhost:60000
+
+
+			
+

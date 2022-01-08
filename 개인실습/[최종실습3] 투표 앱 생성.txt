@@ -1,0 +1,34 @@
+~$ pwd
+/home/ubuntu
+~$ git clone https://gitlab.com/44bits.io/workshop-voting.git
+~$ cd workshop-voting
+~$ cd vote
+~$ docker build -t voting-vote .
+~$ cd ..
+~$ cd worker
+~$ docker build -t voting-worker .
+~$ cd ..
+~$ cd result
+~$ docker build -t voting-result .
+
+''' docker-compose.yml '''
+version: '3' 
+
+services:
+  db: 
+    image: postgres:9.4
+    restart: always
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+  redis: 
+    image: redis:alpine
+  vote:
+    image: voting-vote
+    ports: 
+      - "60001:80" 
+  worker:
+    image: voting-worker
+  result:
+    image: voting-result
+    ports: 
+      - "60002:80" 
